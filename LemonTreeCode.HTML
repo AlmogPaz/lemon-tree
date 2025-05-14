@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lemon Tree - עצי ריח בעיצוב אישי</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: rtl;
+            background-color: #d1e7e0;
+            color: #333;
+        }
+        header {
+            background-color: #fce97e;
+            padding: 1em;
+            text-align: center;
+            position: relative;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        header img.logo {
+            width: 80px;
+            height: auto;
+            margin-top: 0.5em;
+        }
+        nav {
+            position: absolute;
+            top: 1em;
+            left: 1em;
+        }
+        nav a {
+            margin-left: 10px;
+            text-decoration: none;
+            font-size: 1.5em;
+            color: #333;
+            cursor: pointer;
+        }
+        section {
+            padding: 2em;
+            max-width: 800px;
+            margin: auto;
+            min-height: 100vh;
+            background-color: #d1e7e0;
+        }
+        .gallery-placeholder {
+            height: 200px;
+            background-color: #eee;
+            text-align: center;
+            line-height: 200px;
+            margin-top: 20px;
+        }
+        input, select, textarea, button {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            font-family: inherit;
+        }
+        select {
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        .hidden { display: none; }
+        button {
+            background-color: #f4d03f;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #edd12c;
+        }
+        .center-text {
+            text-align: center;
+        }
+        .form-wrapper {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 2em;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .upload-wrapper {
+            border: 2px dashed #bbb;
+            border-radius: 10px;
+            padding: 1em;
+            background-color: #f9f9f9;
+        }
+        .upload-feedback {
+            color: green;
+            font-weight: bold;
+        }
+        .flex-row {
+            display: flex;
+            gap: 2em;
+            flex-wrap: wrap;
+        }
+        .flex-row > div {
+            flex: 1;
+            min-width: 200px;
+        }
+        .note-text {
+            font-size: 0.85em;
+            color: #555;
+            margin-top: -5px;
+            margin-bottom: 15px;
+        }
+        #imagePreview {
+            max-width: 100%;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+        .strike {
+            text-decoration: line-through;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Lemon Tree</h1>
+        <img src="dd096934-1ba4-4c9b-aea6-80bb4c2366ef.png" alt="לוגו" class="logo">
+        <nav>
+            <a onclick="goToSection('home')">🏠</a>
+            <a onclick="goToSection('order')">🛒</a>
+        </nav>
+    </header>
+
+    <section id="home" class="center-text">
+        <h2>🌿 עצי ריח בעיצוב שלא תשכחו 🌿</h2>
+        <p>
+            ב-Lemon Tree אנחנו הופכים את הזיכרונות שלכם לריח נעים ומרגש שתיקחו איתכם לכל מקום! תוכלו לעצב עץ ריח אישי עם הפנים שלכם, הכלב, או כל דבר שעולה בדמיון 🎨🐶📸. אפשר גם להוסיף כיתוב לבחירתכם – או פשוט להשתגע עם העיצוב! 😍🌈
+        </p>
+        <button onclick="goToSection('order')">✨ הזמן עכשיו ✨</button>
+        <div class="gallery-placeholder">כאן יופיעו תמונות של עצים שעיצבנו</div>
+    </section>
+
+    <section id="order" class="hidden">
+        <div class="form-wrapper">
+            <h2>טופס הזמנה</h2>
+            <form id="orderForm" onsubmit="return showSummary(event)">
+                <label>בחר ריח:
+                    <select name="scent" required>
+                        <option value="vanilla">וניל</option>
+                        <option value="lemon">לימון</option>
+                        <option value="lavender">לבנדר</option>
+                        <option value="pine">אורן</option>
+                    </select>
+                </label>
+                <label>בחר צורה:
+                    <select name="shape" required>
+                        <option value="circle">עיגול</option>
+                        <option value="square">ריבוע</option>
+                        <option value="rectangle">מלבן</option>
+                        <option value="face">פרצוף</option>
+                        <option value="other">אחר</option>
+                    </select>
+                </label>
+                <label>העלה תמונה:</label>
+                <div class="upload-wrapper">
+                    <input type="file" name="image" accept="image/*" onchange="previewImage(event)" required>
+                    <img id="imagePreview">
+                    <div id="uploadFeedback" class="upload-feedback" style="display:none">✔️ תמונה הועלתה בהצלחה!</div>
+                </div>
+                <label>הערות:
+                    <textarea name="notes" rows="3" placeholder="רשום כאן כל דבר נוסף שחשוב לנו לדעת..."></textarea>
+                </label>
+                <div class="flex-row">
+                    <div>
+                        <label>כמות:
+                            <input type="number" name="quantity" id="quantity" min="1" required oninput="updatePrice()">
+                        </label>
+                    </div>
+                    <div>
+                        <label>מחיר:
+                            <input type="text" id="price" placeholder="יחושב לפי כמות" disabled>
+                        </label>
+                        <div class="note-text">בהזמנה מעל 2 יחידות תקבלו 10% הנחה. המחיר הסופי יוצג בסיכום.</div>
+                    </div>
+                </div>
+                <button type="submit">המשך לסיכום</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="summary" class="hidden">
+        <div class="form-wrapper">
+            <h2>סיכום הזמנה</h2>
+            <div id="summaryDetails"></div>
+            <label>כתובת למשלוח:
+                <input type="text" name="address" required>
+            </label>
+            <label>מספר טלפון:
+                <input type="tel" name="phone" required>
+            </label>
+            <p>לאחר שליחת ההזמנה, תקבלו הודעה בוואטסאפ לאישור ותשלום יתבצע דרך ביט או פייבוקס.</p>
+            <button onclick="submitOrder()">אישור הזמנה סופי</button>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2025 Lemon Tree - כל הזכויות שמורות
+    </footer>
+
+    <script>
+        function goToSection(id) {
+            const sections = ['home', 'order', 'summary'];
+            sections.forEach(sectionId => {
+                document.getElementById(sectionId).classList.add('hidden');
+            });
+            document.getElementById(id).classList.remove('hidden');
+            window.scrollTo({ top: document.getElementById(id).offsetTop, behavior: 'smooth' });
+        }
+
+        function previewImage(event) {
+            const image = document.getElementById('imagePreview');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            image.style.display = 'block';
+            document.getElementById('uploadFeedback').style.display = 'block';
+        }
+
+        function updatePrice() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            if (!quantity || quantity < 1) {
+                document.getElementById('price').value = '';
+                return;
+            }
+            const unitPrice = 50;
+            const total = unitPrice * quantity;
+            document.getElementById('price').value = `${total} ש"ח`;
+        }
+
+        function showSummary(event) {
+            event.preventDefault();
+            const form = document.getElementById('orderForm');
+            const formData = new FormData(form);
+            const quantity = parseInt(formData.get('quantity'));
+            const unitPrice = 50;
+            const total = unitPrice * quantity;
+            let finalText = `<p><strong>מחיר:</strong> `;
+            if (quantity > 1) {
+                const discounted = total - (total * 0.1);
+                finalText += `<span class='strike'>${total} ש"ח</span><br>${discounted} ש"ח <span style='color:green'>(10% הנחה על קניה מרובה)</span>`;
+            } else {
+                finalText += `${total} ש"ח`;
+            }
+            finalText += `</p>`;
+
+            const details = `
+                <p><strong>ריח:</strong> ${formData.get('scent')}</p>
+                <p><strong>צורה:</strong> ${formData.get('shape')}</p>
+                <p><strong>כמות:</strong> ${formData.get('quantity')}</p>
+                <p><strong>הערות:</strong> ${formData.get('notes') || 'אין'}</p>
+                ${finalText}
+            `;
+            document.getElementById('summaryDetails').innerHTML = details;
+            goToSection('summary');
+            return false;
+        }
+
+        function submitOrder() {
+            alert('ההזמנה נשלחה! כל הפרטים יישלחו למייל.');
+        }
+    </script>
+</body>
+</html>
