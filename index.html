@@ -198,13 +198,21 @@
 <section id="summary" class="hidden">
     <div class="form-wrapper">
         <h2>סיכום הזמנה</h2>
-        <form action="https://formspree.io/f/mldbaozj" method="POST" enctype="multipart/form-data">
+        <form id="finalForm" action="https://formspree.io/f/mldbaozj" method="POST" enctype="multipart/form-data">
             <div id="summaryDetails"></div>
+            <input type="hidden" name="scent">
+            <input type="hidden" name="shape">
+            <input type="hidden" name="quantity">
+            <input type="hidden" name="notes">
+            <input type="hidden" name="price">
             <label>כתובת למשלוח:
                 <input type="text" name="address" required>
             </label>
             <label>מספר טלפון:
                 <input type="tel" name="phone" required>
+            </label>
+            <label>העלה שוב את התמונה למשלוח:
+                <input type="file" name="image" accept="image/*" required>
             </label>
             <p>לאחר שליחת ההזמנה, תקבלו הודעה בוואטסאפ לאישור ותשלום יתבצע דרך ביט או פייבוקס.</p>
             <button type="submit">אישור הזמנה סופי</button>
@@ -251,23 +259,31 @@
         const quantity = parseInt(formData.get('quantity'));
         const unitPrice = 50;
         const total = unitPrice * quantity;
-        let finalText = `<p><strong>מחיר:</strong> `;
+        let priceFinal = total;
+        let priceText = '';
+
         if (quantity > 1) {
             const discounted = total - (total * 0.1);
-            finalText += `<span class='strike'>${total} ש"ח</span><br>${discounted} ש"ח <span style='color:green'>(10% הנחה על קניה מרובה)</span>`;
+            priceFinal = discounted;
+            priceText = `<span class='strike'>${total} ש"ח</span><br>${discounted} ש"ח <span style='color:green'>(10% הנחה)</span>`;
         } else {
-            finalText += `${total} ש"ח`;
+            priceText = `${total} ש"ח`;
         }
-        finalText += `</p>`;
 
-        const details = `
+        document.getElementById('summaryDetails').innerHTML = `
             <p><strong>ריח:</strong> ${formData.get('scent')}</p>
             <p><strong>צורה:</strong> ${formData.get('shape')}</p>
             <p><strong>כמות:</strong> ${formData.get('quantity')}</p>
             <p><strong>הערות:</strong> ${formData.get('notes') || 'אין'}</p>
-            ${finalText}
+            <p><strong>מחיר:</strong> ${priceText}</p>
         `;
-        document.getElementById('summaryDetails').innerHTML = details;
+
+        document.querySelector("input[name='scent']").value = formData.get('scent');
+        document.querySelector("input[name='shape']").value = formData.get('shape');
+        document.querySelector("input[name='quantity']").value = formData.get('quantity');
+        document.querySelector("input[name='notes']").value = formData.get('notes');
+        document.querySelector("input[name='price']").value = `${priceFinal} ש"ח`;
+
         goToSection('summary');
         return false;
     }
