@@ -215,7 +215,7 @@
                 <div><label>מיקוד:<input type="text" name="zipcode"></label></div>
             </div>
             <label>מספר טלפון:<input type="tel" name="phone" required></label>
-            <p>לאחר שליחת ההזמנה, תקבלו הודעה בוואטסאפ לאישור ותשלום יתבצע דרך ביט או פייבוקס.</p>
+            <p>בסיום מילוי הטופס, תישלח אליך הודעת וואטסאפ לאישור ההזמנה ולתיאום התשלום באמצעות ביט או פייבוקס – לפי העדפתך.</p>
             <button type="submit">אישור הזמנה סופי</button>
         </form>
     </div>
@@ -253,12 +253,33 @@ function updatePrice() {
     document.getElementById('price').value = `${total} ש"ח`;
 }
 
+function translateScent(scent) {
+    const scents = {
+        vanilla: "וניל",
+        lemon: "לימון",
+        lavender: "לבנדר",
+        pine: "אורן"
+    };
+    return scents[scent] || scent;
+}
+
+function translateShape(shape) {
+    const shapes = {
+        circle: "עיגול",
+        square: "ריבוע",
+        rectangle: "מלבן",
+        face: "פרצוף",
+        other: "אחר"
+    };
+    return shapes[shape] || shape;
+}
+
 function showSummary(event) {
     event.preventDefault();
     const form = document.getElementById('orderForm');
     const formData = new FormData(form);
-    const scent = formData.get('scent');
-    const shape = formData.get('shape');
+    const scent = translateScent(formData.get('scent'));
+    const shape = translateShape(formData.get('shape'));
     const quantity = formData.get('quantity');
     const notes = formData.get('notes');
 
