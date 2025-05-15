@@ -200,60 +200,25 @@
         <h2>סיכום הזמנה</h2>
         <form id="finalForm" action="https://formspree.io/f/mldbaozj" method="POST">
             <div id="summaryDetails"></div>
-
-```
-        <h3 style="margin-top: 2em;">כתובת למשלוח:</h3>
-        <div class="flex-row">
-            <div>
-                <label>שם:
-                    <input type="text" name="fullname" required>
-                </label>
+            <h3 style="margin-top: 2em;">כתובת למשלוח:</h3>
+            <div class="flex-row">
+                <div><label>שם:<input type="text" name="fullname" required></label></div>
+                <div><label>רחוב:<input type="text" name="street" required></label></div>
             </div>
-            <div>
-                <label>רחוב:
-                    <input type="text" name="street" required>
-                </label>
+            <div class="flex-row">
+                <div><label>מספר בית / בניין:<input type="text" name="building" required></label></div>
+                <div><label>קומה:<input type="text" name="floor"></label></div>
+                <div><label>דירה:<input type="text" name="apartment"></label></div>
             </div>
-        </div>
-        <div class="flex-row">
-            <div>
-                <label>מספר בית / בניין:
-                    <input type="text" name="building" required>
-                </label>
+            <div class="flex-row">
+                <div><label>עיר:<input type="text" name="city" required></label></div>
+                <div><label>מיקוד:<input type="text" name="zipcode"></label></div>
             </div>
-            <div>
-                <label>קומה:
-                    <input type="text" name="floor">
-                </label>
-            </div>
-            <div>
-                <label>דירה:
-                    <input type="text" name="apartment">
-                </label>
-            </div>
-        </div>
-        <div class="flex-row">
-            <div>
-                <label>עיר:
-                    <input type="text" name="city" required>
-                </label>
-            </div>
-            <div>
-                <label>מיקוד:
-                    <input type="text" name="zipcode">
-                </label>
-            </div>
-        </div>
-
-        <label>מספר טלפון:
-            <input type="tel" name="phone" required>
-        </label>
-        <p>לאחר שליחת ההזמנה, תקבלו הודעה בוואטסאפ לאישור ותשלום יתבצע דרך ביט או פייבוקס.</p>
-        <button type="submit">אישור הזמנה סופי</button>
-    </form>
-</div>
-```
-
+            <label>מספר טלפון:<input type="tel" name="phone" required></label>
+            <p>לאחר שליחת ההזמנה, תקבלו הודעה בוואטסאפ לאישור ותשלום יתבצע דרך ביט או פייבוקס.</p>
+            <button type="submit">אישור הזמנה סופי</button>
+        </form>
+    </div>
 </section>
 
 <footer>
@@ -261,67 +226,66 @@
 </footer>
 
 <script>
-    function goToSection(id) {
-        const sections = ['home', 'order', 'summary'];
-        sections.forEach(sectionId => {
-            document.getElementById(sectionId).classList.add('hidden');
-        });
-        document.getElementById(id).classList.remove('hidden');
-        window.scrollTo({ top: document.getElementById(id).offsetTop, behavior: 'smooth' });
+function goToSection(id) {
+    const sections = ['home', 'order', 'summary'];
+    sections.forEach(sectionId => {
+        document.getElementById(sectionId).classList.add('hidden');
+    });
+    document.getElementById(id).classList.remove('hidden');
+    window.scrollTo({ top: document.getElementById(id).offsetTop, behavior: 'smooth' });
+}
+
+function previewImage(event) {
+    const image = document.getElementById('imagePreview');
+    image.src = URL.createObjectURL(event.target.files[0]);
+    image.style.display = 'block';
+    document.getElementById('uploadFeedback').style.display = 'block';
+}
+
+function updatePrice() {
+    const quantity = parseInt(document.getElementById('quantity').value);
+    if (!quantity || quantity < 1) {
+        document.getElementById('price').value = '';
+        return;
+    }
+    const unitPrice = 50;
+    const total = unitPrice * quantity;
+    document.getElementById('price').value = `${total} ש"ח`;
+}
+
+function showSummary(event) {
+    event.preventDefault();
+    const form = document.getElementById('orderForm');
+    const formData = new FormData(form);
+    const scent = formData.get('scent');
+    const shape = formData.get('shape');
+    const quantity = formData.get('quantity');
+    const notes = formData.get('notes');
+
+    const unitPrice = 50;
+    const total = unitPrice * parseInt(quantity);
+    let priceFinal = total;
+    let priceText = '';
+
+    if (quantity > 1) {
+        const discounted = total - (total * 0.1);
+        priceFinal = discounted;
+        priceText = `<span class='strike'>${total} ש"ח</span><br>${discounted} ש"ח <span style='color:green'>(10% הנחה)</span>`;
+    } else {
+        priceText = `${total} ש"ח`;
     }
 
-    function previewImage(event) {
-        const image = document.getElementById('imagePreview');
-        image.src = URL.createObjectURL(event.target.files[0]);
-        image.style.display = 'block';
-        document.getElementById('uploadFeedback').style.display = 'block';
-    }
+    document.getElementById('summaryDetails').innerHTML = `
+        <p><strong>ריח:</strong> ${scent}</p>
+        <p><strong>צורה:</strong> ${shape}</p>
+        <p><strong>כמות:</strong> ${quantity}</p>
+        <p><strong>הערות:</strong> ${notes || 'אין'}</p>
+        <p><strong>מחיר:</strong> ${priceText}</p>
+    `;
 
-    function updatePrice() {
-        const quantity = parseInt(document.getElementById('quantity').value);
-        if (!quantity || quantity < 1) {
-            document.getElementById('price').value = '';
-            return;
-        }
-        const unitPrice = 50;
-        const total = unitPrice * quantity;
-        document.getElementById('price').value = `${total} ש"ח`;
-    }
-
-    function showSummary(event) {
-        event.preventDefault();
-        const form = document.getElementById('orderForm');
-        const formData = new FormData(form);
-        const scent = formData.get('scent');
-        const shape = formData.get('shape');
-        const quantity = formData.get('quantity');
-        const notes = formData.get('notes');
-
-        const unitPrice = 50;
-        const total = unitPrice * parseInt(quantity);
-        let priceFinal = total;
-        let priceText = '';
-
-        if (quantity > 1) {
-            const discounted = total - (total * 0.1);
-            priceFinal = discounted;
-            priceText = `<span class='strike'>${total} ש"ח</span><br>${discounted} ש"ח <span style='color:green'>(10% הנחה)</span>`;
-        } else {
-            priceText = `${total} ש"ח`;
-        }
-
-        document.getElementById('summaryDetails').innerHTML = `
-            <p><strong>ריח:</strong> ${scent}</p>
-            <p><strong>צורה:</strong> ${shape}</p>
-            <p><strong>כמות:</strong> ${quantity}</p>
-            <p><strong>הערות:</strong> ${notes || 'אין'}</p>
-            <p><strong>מחיר:</strong> ${priceText}</p>
-        `;
-
-        goToSection('summary');
-        return false;
-    }
+    goToSection('summary');
+    return false;
+}
 </script>
-
 </body>
 </html>
