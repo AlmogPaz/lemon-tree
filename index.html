@@ -149,7 +149,7 @@
 <section id="order" class="hidden">
     <div class="form-wrapper">
         <h2>טופס הזמנה</h2>
-        <form id="orderForm" action="https://formspree.io/f/mldbaozj" method="POST" enctype="multipart/form-data" onsubmit="return showSummary(event)">
+        <form id="orderForm" onsubmit="return showSummary(event)" enctype="multipart/form-data">
             <label>בחר ריח:
                 <select name="scent" required>
                     <option value="vanilla">וניל</option>
@@ -198,7 +198,7 @@
 <section id="summary" class="hidden">
     <div class="form-wrapper">
         <h2>סיכום הזמנה</h2>
-        <form id="finalForm" action="https://formspree.io/f/mldbaozj" method="POST" enctype="multipart/form-data">
+        <form action="https://formspree.io/f/mldbaozj" method="POST" enctype="multipart/form-data">
             <div id="summaryDetails"></div>
             <label>כתובת למשלוח:
                 <input type="text" name="address" required>
