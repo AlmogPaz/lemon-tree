@@ -167,13 +167,6 @@
                     <option value="other">אחר</option>
                 </select>
             </label>
-            <label>העלה תמונה:
-                <div class="upload-wrapper">
-                    <input type="file" name="image" accept="image/*" onchange="previewImage(event)" required>
-                    <img id="imagePreview">
-                    <div id="uploadFeedback" class="upload-feedback" style="display:none">✔️ תמונה הועלתה בהצלחה!</div>
-                </div>
-            </label>
             <label>הערות:
                 <textarea name="notes" rows="3" placeholder="רשום כאן כל דבר נוסף שחשוב לנו לדעת..."></textarea>
             </label>
@@ -239,13 +232,6 @@
         });
         document.getElementById(id).classList.remove('hidden');
         window.scrollTo({ top: document.getElementById(id).offsetTop, behavior: 'smooth' });
-    }
-
-    function previewImage(event) {
-        const image = document.getElementById('imagePreview');
-        image.src = URL.createObjectURL(event.target.files[0]);
-        image.style.display = 'block';
-        document.getElementById('uploadFeedback').style.display = 'block';
     }
 
     function updatePrice() {
