@@ -169,7 +169,7 @@
             </label>
             <label>העלה תמונה:
                 <div class="upload-wrapper">
-                    <input type="file" name="image" accept="image/*" onchange="previewImage(event)" required>
+                    <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
                     <img id="imagePreview">
                     <div id="uploadFeedback" class="upload-feedback" style="display:none">✔️ תמונה הועלתה בהצלחה!</div>
                 </div>
@@ -200,7 +200,8 @@
         <h2>סיכום הזמנה</h2>
         <form id="finalForm" action="https://formspree.io/f/mldbaozj" method="POST">
             <div id="summaryDetails"></div>
-            <label>כתובת למשלוח:</label>
+
+            <h3 style="margin-top: 2em;">כתובת למשלוח:</h3>
             <div class="flex-row">
                 <div>
                     <label>שם:
@@ -242,6 +243,7 @@
                     </label>
                 </div>
             </div>
+
             <label>מספר טלפון:
                 <input type="tel" name="phone" required>
             </label>
