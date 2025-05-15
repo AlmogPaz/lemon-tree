@@ -146,28 +146,16 @@
     <div class="gallery-placeholder">כאן יופיעו תמונות של עצים שעיצבנו</div>
 </section>
 
-<!-- סקשן ההזמנה יהיה כאן בהמשך -->
-
-<section id="summary" class="center-text hidden">
-    <h2>סיכום ההזמנה שלך</h2>
-    <div id="summaryDetails"></div>
-    <p style="margin-top: 2em;">
-        לאחר שליחת ההזמנה, נשלח אליכם אישור בוואטסאפ. את התשלום תוכלו לבצע בקלות באמצעות ביט או פייבוקס – לפי בחירתכם.
-    </p>
-</section>
+<!-- order and other sections remain unchanged -->
 
 <script>
     function goToSection(id) {
         const sections = ['home', 'order', 'summary'];
         sections.forEach(sectionId => {
-            const sectionEl = document.getElementById(sectionId);
-            if (sectionEl) sectionEl.classList.add('hidden');
+            document.getElementById(sectionId).classList.add('hidden');
         });
-        const targetSection = document.getElementById(id);
-        if (targetSection) {
-            targetSection.classList.remove('hidden');
-            window.scrollTo({ top: targetSection.offsetTop, behavior: 'smooth' });
-        }
+        document.getElementById(id).classList.remove('hidden');
+        window.scrollTo({ top: document.getElementById(id).offsetTop, behavior: 'smooth' });
     }
 
     function previewImage(event) {
@@ -185,32 +173,18 @@
         }
         const unitPrice = 50;
         const total = unitPrice * quantity;
-        document.getElementById('price').value = `${total} ש"ח`;
+        document.getElementById('price').value = ${total} ש"ח;
     }
 
     function showSummary(event) {
         event.preventDefault();
         const form = document.getElementById('orderForm');
         const formData = new FormData(form);
-        const scentMap = {
-            vanilla: 'וניל',
-            lemon: 'לימון',
-            lavender: 'לבנדר',
-            pine: 'אורן'
-        };
-        const shapeMap = {
-            circle: 'עיגול',
-            square: 'ריבוע',
-            rectangle: 'מלבן',
-            face: 'פרצוף',
-            other: 'אחר'
-        };
+        const scentMap = { vanilla: 'וניל', lemon: 'לימון', lavender: 'לבנדר', pine: 'אורן' };
+        const shapeMap = { circle: 'עיגול', square: 'ריבוע', rectangle: 'מלבן', face: 'פרצוף', other: 'אחר' };
 
-        const scentKey = formData.get('scent');
-        const shapeKey = formData.get('shape');
-
-        const scent = scentMap[scentKey] || scentKey;
-        const shape = shapeMap[shapeKey] || shapeKey;
+        const scent = scentMap[formData.get('scent')] || formData.get('scent');
+        const shape = shapeMap[formData.get('shape')] || formData.get('shape');
         const quantity = formData.get('quantity');
         const notes = formData.get('notes');
 
@@ -222,22 +196,31 @@
         if (quantity > 1) {
             const discounted = total - (total * 0.1);
             priceFinal = discounted;
-            priceText = `<span class='strike'>${total} ש"ח</span><br>${discounted} ש"ח <span style='color:green'>(10% הנחה)</span>`;
+            priceText = <span class='strike'>${total} ש"ח</span><br>${discounted} ש"ח <span style='color:green'>(10% הנחה)</span>;
         } else {
-            priceText = `${total} ש"ח`;
+            priceText = ${total} ש"ח;
         }
 
-        document.getElementById('summaryDetails').innerHTML = `
+        document.getElementById('summaryDetails').innerHTML = 
             <p><strong>ריח:</strong> ${scent}</p>
             <p><strong>צורה:</strong> ${shape}</p>
             <p><strong>כמות:</strong> ${quantity}</p>
             <p><strong>הערות:</strong> ${notes || 'אין'}</p>
             <p><strong>מחיר:</strong> ${priceText}</p>
-        `;
+        ;
 
         goToSection('summary');
         return false;
     }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const para = document.querySelector("#summary p:last-of-type");
+        if (para) {
+            para.textContent = "לאחר שליחת ההזמנה, אנו ניצור איתכם קשר בוואטסאפ לאישור, והתשלום יתבצע דרך ביט או פייבוקס על פי בחירתכם.";
+        }
+    });
 </script>
 </body>
 </html>
