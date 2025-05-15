@@ -146,16 +146,28 @@
     <div class="gallery-placeholder">כאן יופיעו תמונות של עצים שעיצבנו</div>
 </section>
 
-<!-- order and other sections remain unchanged -->
+<!-- סקשן ההזמנה יהיה כאן בהמשך -->
+
+<section id="summary" class="center-text hidden">
+    <h2>סיכום ההזמנה שלך</h2>
+    <div id="summaryDetails"></div>
+    <p style="margin-top: 2em;">
+        לאחר שליחת ההזמנה, נשלח אליכם אישור בוואטסאפ. את התשלום תוכלו לבצע בקלות באמצעות ביט או פייבוקס – לפי בחירתכם.
+    </p>
+</section>
 
 <script>
     function goToSection(id) {
         const sections = ['home', 'order', 'summary'];
         sections.forEach(sectionId => {
-            document.getElementById(sectionId).classList.add('hidden');
+            const sectionEl = document.getElementById(sectionId);
+            if (sectionEl) sectionEl.classList.add('hidden');
         });
-        document.getElementById(id).classList.remove('hidden');
-        window.scrollTo({ top: document.getElementById(id).offsetTop, behavior: 'smooth' });
+        const targetSection = document.getElementById(id);
+        if (targetSection) {
+            targetSection.classList.remove('hidden');
+            window.scrollTo({ top: targetSection.offsetTop, behavior: 'smooth' });
+        }
     }
 
     function previewImage(event) {
@@ -180,11 +192,25 @@
         event.preventDefault();
         const form = document.getElementById('orderForm');
         const formData = new FormData(form);
-        const scentMap = { vanilla: 'וניל', lemon: 'לימון', lavender: 'לבנדר', pine: 'אורן' };
-        const shapeMap = { circle: 'עיגול', square: 'ריבוע', rectangle: 'מלבן', face: 'פרצוף', other: 'אחר' };
+        const scentMap = {
+            vanilla: 'וניל',
+            lemon: 'לימון',
+            lavender: 'לבנדר',
+            pine: 'אורן'
+        };
+        const shapeMap = {
+            circle: 'עיגול',
+            square: 'ריבוע',
+            rectangle: 'מלבן',
+            face: 'פרצוף',
+            other: 'אחר'
+        };
 
-        const scent = scentMap[formData.get('scent')] || formData.get('scent');
-        const shape = shapeMap[formData.get('shape')] || formData.get('shape');
+        const scentKey = formData.get('scent');
+        const shapeKey = formData.get('shape');
+
+        const scent = scentMap[scentKey] || scentKey;
+        const shape = shapeMap[shapeKey] || shapeKey;
         const quantity = formData.get('quantity');
         const notes = formData.get('notes');
 
@@ -212,15 +238,6 @@
         goToSection('summary');
         return false;
     }
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const para = document.querySelector("#summary p:last-of-type");
-        if (para) {
-            para.textContent = "לאחר שליחת ההזמנה, אנו ניצור איתכם קשר בוואטסאפ לאישור, והתשלום יתבצע דרך ביט או פייבוקס על פי בחירתכם.";
-        }
-    });
 </script>
 </body>
 </html>
