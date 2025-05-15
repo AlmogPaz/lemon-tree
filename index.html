@@ -200,11 +200,21 @@
         <h2>סיכום הזמנה</h2>
         <form id="finalForm" action="https://formspree.io/f/mldbaozj" method="POST" enctype="multipart/form-data">
             <div id="summaryDetails"></div>
-            <input type="hidden" name="scent">
-            <input type="hidden" name="shape">
-            <input type="hidden" name="quantity">
-            <input type="hidden" name="notes">
-            <input type="hidden" name="price">
+            <label>ריח:
+                <input type="text" name="scent" id="scentSend" readonly required>
+            </label>
+            <label>צורה:
+                <input type="text" name="shape" id="shapeSend" readonly required>
+            </label>
+            <label>כמות:
+                <input type="text" name="quantity" id="quantitySend" readonly required>
+            </label>
+            <label>הערות:
+                <input type="text" name="notes" id="notesSend" readonly>
+            </label>
+            <label>מחיר סופי:
+                <input type="text" name="price" id="priceSend" readonly required>
+            </label>
             <label>כתובת למשלוח:
                 <input type="text" name="address" required>
             </label>
@@ -278,11 +288,11 @@
             <p><strong>מחיר:</strong> ${priceText}</p>
         `;
 
-        document.querySelector("input[name='scent']").value = formData.get('scent');
-        document.querySelector("input[name='shape']").value = formData.get('shape');
-        document.querySelector("input[name='quantity']").value = formData.get('quantity');
-        document.querySelector("input[name='notes']").value = formData.get('notes');
-        document.querySelector("input[name='price']").value = `${priceFinal} ש"ח`;
+        document.getElementById('scentSend').value = formData.get('scent');
+        document.getElementById('shapeSend').value = formData.get('shape');
+        document.getElementById('quantitySend').value = formData.get('quantity');
+        document.getElementById('notesSend').value = formData.get('notes');
+        document.getElementById('priceSend').value = `${priceFinal} ש"ח`;
 
         goToSection('summary');
         return false;
