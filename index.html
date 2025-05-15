@@ -289,9 +289,13 @@
         event.preventDefault();
         const form = document.getElementById('orderForm');
         const formData = new FormData(form);
-        const quantity = parseInt(formData.get('quantity'));
+        const scent = formData.get('scent');
+        const shape = formData.get('shape');
+        const quantity = formData.get('quantity');
+        const notes = formData.get('notes');
+
         const unitPrice = 50;
-        const total = unitPrice * quantity;
+        const total = unitPrice * parseInt(quantity);
         let priceFinal = total;
         let priceText = '';
 
@@ -304,6 +308,10 @@
         }
 
         document.getElementById('summaryDetails').innerHTML = `
+            <p><strong>ריח:</strong> ${scent}</p>
+            <p><strong>צורה:</strong> ${shape}</p>
+            <p><strong>כמות:</strong> ${quantity}</p>
+            <p><strong>הערות:</strong> ${notes || 'אין'}</p>
             <p><strong>מחיר:</strong> ${priceText}</p>
         `;
 
