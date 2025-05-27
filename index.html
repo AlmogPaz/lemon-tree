@@ -198,7 +198,7 @@
 <section id="summary" class="hidden">
     <div class="form-wrapper">
         <h2>סיכום הזמנה</h2>
-        <form id="finalForm" action="https://formspree.io/f/mldbaozj" method="POST">
+        <form id="finalForm" action="https://script.google.com/macros/s/AKfycbzO0Y98n-iVXOp1zKjL52B8GbWtyhrHIwNRubNZeZ5nweqhf_DpbQ_U4gMSH1UWtfTLgA/exec" method="POST">
             <div id="summaryDetails"></div>
             <h3 style="margin-top: 2em;">כתובת למשלוח:</h3>
             <div class="flex-row">
@@ -215,7 +215,7 @@
                 <div><label>מיקוד:<input type="text" name="zipcode"></label></div>
             </div>
             <label>מספר טלפון:<input type="tel" name="phone" required></label>
-            <p>בסיום מילוי הטופס, תישלח אליך הודעת וואטסאפ לאישור ההזמנה ולתיאום התשלום באמצעות ביט או פייבוקס – לפי העדפתך.</p>
+            <p>לאחר שליחת ההזמנה, תקבלו הודעה בוואטסאפ לאישור ותשלום יתבצע דרך ביט או פייבוקס.</p>
             <button type="submit">אישור הזמנה סופי</button>
         </form>
     </div>
@@ -253,33 +253,12 @@ function updatePrice() {
     document.getElementById('price').value = `${total} ש"ח`;
 }
 
-function translateScent(scent) {
-    const scents = {
-        vanilla: "וניל",
-        lemon: "לימון",
-        lavender: "לבנדר",
-        pine: "אורן"
-    };
-    return scents[scent] || scent;
-}
-
-function translateShape(shape) {
-    const shapes = {
-        circle: "עיגול",
-        square: "ריבוע",
-        rectangle: "מלבן",
-        face: "פרצוף",
-        other: "אחר"
-    };
-    return shapes[shape] || shape;
-}
-
 function showSummary(event) {
     event.preventDefault();
     const form = document.getElementById('orderForm');
     const formData = new FormData(form);
-    const scent = translateScent(formData.get('scent'));
-    const shape = translateShape(formData.get('shape'));
+    const scent = formData.get('scent');
+    const shape = formData.get('shape');
     const quantity = formData.get('quantity');
     const notes = formData.get('notes');
 
