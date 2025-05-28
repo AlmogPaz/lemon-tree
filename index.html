@@ -253,12 +253,33 @@ function updatePrice() {
     document.getElementById('price').value = `${total} ש"ח`;
 }
 
+function translateScent(scent) {
+    const scents = {
+        vanilla: "וניל",
+        lemon: "לימון",
+        lavender: "לבנדר",
+        pine: "אורן"
+    };
+    return scents[scent] || scent;
+}
+
+function translateShape(shape) {
+    const shapes = {
+        circle: "עיגול",
+        square: "ריבוע",
+        rectangle: "מלבן",
+        face: "פרצוף",
+        other: "אחר"
+    };
+    return shapes[shape] || shape;
+}
+
 function showSummary(event) {
     event.preventDefault();
     const form = document.getElementById('orderForm');
     const formData = new FormData(form);
-    const scent = formData.get('scent');
-    const shape = formData.get('shape');
+    const scent = translateScent(formData.get('scent'));
+    const shape = translateShape(formData.get('shape'));
     const quantity = formData.get('quantity');
     const notes = formData.get('notes');
 
@@ -286,6 +307,31 @@ function showSummary(event) {
     goToSection('summary');
     return false;
 }
+
+// שליחת טופס עם קובץ דרך fetch ל-Apps Script
+window.addEventListener('DOMContentLoaded', () => {
+    const finalForm = document.getElementById('finalForm');
+    if (finalForm) {
+        finalForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(finalForm);
+
+            fetch(finalForm.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert("ההזמנה נשלחה בהצלחה!");
+                finalForm.reset();
+            })
+            .catch(error => {
+                alert("אירעה שגיאה בשליחת ההזמנה");
+                console.error('Error:', error);
+            });
+        });
+    }
+});
 </script>
 </body>
 </html>
